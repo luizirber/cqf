@@ -32,7 +32,7 @@
 
 int main(int argc, char **argv)
 {
-	QF cf;
+	QF cf, cf2;
 	QFi cfi;
 	uint64_t qbits = atoi(argv[1]);
 	uint64_t nhashbits = qbits + 8;
@@ -42,6 +42,7 @@ int main(int argc, char **argv)
 
 	/* Initialise the CQF */
 	qf_init(&cf, nslots, nhashbits, 0);
+	qf_init(&cf2, nslots, nhashbits, 0);
 
 	/* Generate random values */
 	vals = (uint64_t*)malloc(nvals*sizeof(vals[0]));
@@ -73,6 +74,7 @@ int main(int argc, char **argv)
 							key, qf_count_key_value(&cf, key, 0));
 			abort();
 		}
+		qf_insert(&cf2, key, value, count);
 	} while(!qfi_next(&cfi));
 
 	fprintf(stdout, "Validated the CQF.\n");
